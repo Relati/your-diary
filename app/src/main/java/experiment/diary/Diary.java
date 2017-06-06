@@ -1,4 +1,4 @@
-package com.study.android.kehan.diary_test01;
+package experiment.diary;
 
 public class Diary {
     private int month;
