@@ -1,67 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/start_relative"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/start_bg">
+
     <TextView
         android:id="@+id/my_diary_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/MyDiary"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:textSize="50sp"
-        android:paddingTop="50dp"
+        android:paddingTop="120dp"
         android:paddingStart="10dp"
-        android:paddingEnd="10dp"/>
-
-    <TextView
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:text="@string/RecordEverydayOfYourLife"
-        android:layout_alignParentEnd="true"
-        android:textSize="22sp"
-        android:paddingTop="250dp"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        />
-
-    <!--进入日记是在设定好密码后才显示的，没设定之前显示的是提示输入密码的信息-->
-    <Button
-        android:textColor="@color/colorBlack"
-        android:id="@+id/accessBtn"
-        android:textSize="16sp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="3dp"
-        android:background="@drawable/access_btn" />
-
-    <EditText
-        android:textColorHint="@color/colorBlack"
-        android:id="@+id/password"
-        android:inputType="textPassword"
-        android:layout_above="@id/accessBtn"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:hint="@string/pleaseInputPassword"
-        android:layout_marginBottom="40dp"/>
+        android:paddingEnd="10dp" />
 
     <EditText
         android:textColorHint="@color/colorBlack"
         android:id="@+id/username"
+        android:textSize="20sp"
         android:inputType="text"
-        android:layout_above="@id/password"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:hint="@string/pleaseInputUsername"/>
+
+    <EditText
+        android:textColorHint="@color/colorBlack"
+        android:id="@+id/password"
+        android:textSize="20sp"
+        android:inputType="textPassword"
+        android:layout_below="@id/username"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:hint="@string/pleaseInputUsername"/>
+        android:hint="@string/pleaseInputPassword" />
 
     <EditText
         android:textColorHint="@color/colorBlack"
@@ -69,15 +47,31 @@
         android:inputType="textPassword"
         android:hint="@string/pleaseInputPasswordAgain"
         android:gravity="center"
+        android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/accessBtn"
+        android:layout_below="@id/password"
         android:layout_width="180dp"
         android:layout_height="wrap_content" />
 
+    <!--进入日记是在设定好密码后才显示的，没设定之前显示的是提示输入密码的信息-->
     <Button
+        android:textColor="@color/colorBlack"
+        android:id="@+id/accessBtn"
+        android:textSize="17sp"
+
+        android:background="@drawable/access_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/password"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="3dp" />
+
+    <Button
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/resetBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="重置密码"/>
+        android:text="重置密码" />
 </RelativeLayout>
