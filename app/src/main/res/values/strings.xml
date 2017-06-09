@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">diary_test01</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="pleaseInputPassword">请输入密码</string>
+    <string name="pleaseInputUsername">请输用户名</string>
+    <string name="pleaseInputPasswordAgain">请确认密码</string>
+    <string name="MyDiary">My Diary</string>
+    <string name="RecordEverydayOfYourLife">Record Everyday of Your Life.</string>
+</resources>
