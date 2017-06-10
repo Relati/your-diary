@@ -1,22 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp">
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:weightSum="7">
 
-    <TextView
-        android:text="y"
-        android:id="@+id/record_time"
-        android:textSize="30sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
 
-    <TextView
+        <TextView
+            android:gravity="center"
+            android:id="@+id/record_date"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="30"
+            android:textStyle="bold"
+            android:textSize="22dp"
+            android:layout_marginBottom="2dp"
+            android:textColor="@color/colorLightBlue"/>
+        <LinearLayout
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGray"></LinearLayout>
+        <TextView
+            android:gravity="center"
+            android:id="@+id/record_day"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="星期一"
+            android:textStyle="bold"
+            android:textColor="@color/colorLightBlue"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="4.6"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:text="齐木楠雄真好看,齐照党大法好，唱歌唱得真像花江夏树"
+            android:id="@+id/record_content"
+            android:textAlignment="viewStart"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/record_img"
+        android:scaleType="fitXY"
+        android:layout_weight="1.4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/test01"/>
+
+<!--    <TextView
         android:paddingStart="20dp"
         android:id="@+id/record_weather"
         android:textSize="30sp"
         android:text="x"
         android:gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 </LinearLayout>
