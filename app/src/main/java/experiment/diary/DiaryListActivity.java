@@ -1,4 +1,4 @@
-package com.study.android.kehan.diary_test01;
+package experiment.diary;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,11 +16,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Switch;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +36,11 @@ public class DiaryListActivity extends AppCompatActivity
 
     private ListView listview;
     List<Map<String, Object>> list2 = new ArrayList<>();
+    Animation mAnimation = null;
+    TimeAlertDialog timeAlertDialog =null;
+    TimePicker timePicker = null;
+    int hourOfPicker;
+    int minuteOfPicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +50,16 @@ public class DiaryListActivity extends AppCompatActivity
 
         listview = (ListView) findViewById(R.id.list_diary);
         final SimpleAdapter simpleAdapter = new SimpleAdapter(this,getData(),R.layout.diary_item,
-                new String[]{"record_weather","record_time"},
-                new int[]{R.id.record_weather,R.id.record_time});
+                new String[]{"record_date","record_day","record_content","record_img"},
+                new int[]{R.id.record_date,R.id.record_day,R.id.record_content,R.id.record_img});
         listview.setAdapter(simpleAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        final AlertDialog.Builder memorandumBuilder = new AlertDialog.Builder(DiaryListActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final View layout = inflater.inflate(R.layout.time_dialog,drawerLayout,false);
+
+/*        final AlertDialog.Builder memorandumBuilder = new AlertDialog.Builder(DiaryListActivity.this);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +72,59 @@ public class DiaryListActivity extends AppCompatActivity
                         //添加备忘录
                     }
                 }).show();
+            }
+        });*/
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (timeAlertDialog == null) {
+                    timeAlertDialog = new TimeAlertDialog(DiaryListActivity.this);
+                    timePicker = (TimePicker) layout.findViewById(R.id.timePicker);
+                    /*这里本来是想在timeAlertDialog初始化时设置默认时间的，但因为不支持api22,只支持api23所以暂时没处理*/
+                }
+                final Switch aswitch = (Switch)layout.findViewById(R.id.aswitch);
+                timePicker =(TimePicker) layout.findViewById(R.id.timePicker);
+                timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                        hourOfPicker = view.getCurrentHour();
+                        minuteOfPicker = view.getCurrentMinute();
+                        Toast.makeText(DiaryListActivity.this,"提醒时间设置为："+hourOfDay+" 时 "+
+                                minute+" 分 ",Toast.LENGTH_LONG).show();
+                    }
+                });
+                timeAlertDialog.setPositiveButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(DiaryListActivity.this,"提醒时间设置为："+hourOfPicker+" 时 "+
+                                minuteOfPicker +" 分 ",Toast.LENGTH_LONG).show();
+                        timeAlertDialog.dismiss();
+                    }
+                });
+                timeAlertDialog.setNegativeButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        timeAlertDialog.dismiss();
+                    }
+                });
+                timeAlertDialog.setSwitch(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (aswitch.isChecked()) {
+                            aswitch.setChecked(false);
+                            timePicker.setEnabled(false);
+/*                            mAnimation = AnimationUtils.loadAnimation(DiaryListActivity.this,R.anim.turninvisiable);
+                            timePicker.startAnimation(mAnimation);*/
+                        }
+                        else {
+                            aswitch.setChecked(true);
+                            timePicker.setEnabled(true);
+/*                            mAnimation = AnimationUtils.loadAnimation(DiaryListActivity.this,R.anim.turnvisiable);
+                            timePicker.startAnimation(mAnimation);*/
+                        }
+                    }
+                });
+                timeAlertDialog.show();
             }
         });
 
@@ -142,8 +210,70 @@ public class DiaryListActivity extends AppCompatActivity
     }
 
     private List<Map<String,Object>> getData() {
-
+        Integer[] imgs = new Integer[] {R.drawable.test01,R.drawable.test02,R.drawable.test03,R.drawable.test04,R.drawable.test05,R.drawable.test06,R.drawable.test07,R.drawable.test08,R.drawable.test09};
         Map<String, Object> map = new HashMap<>();
+        map.put("record_date","27");
+        map.put("record_day","星期二");
+        map.put("record_content","齐木楠雄真好看,齐照党大法好，唱歌唱得真像花江夏树");
+        map.put("record_img",imgs[0]);
+        list2.add(map);
+
+        map = new HashMap<>();
+        map.put("record_date","22");
+        map.put("record_day","星期日");
+        map.put("record_content","抽不到冲田我要死了，你是我唯一想要的英灵orz,Barserker滚远一点！！！");
+        map.put("record_img",imgs[1]);
+        list2.add(map);
+
+        map = new HashMap<>();
+        map.put("record_date","20");
+        map.put("record_day","星期五");
+        map.put("record_content","纪念单身21周年~~~~~");
+        map.put("record_img",imgs[2]);
+        list2.add(map);
+
+         map = new HashMap<>();
+        map.put("record_date","19");
+        map.put("record_day","星期三");
+        map.put("record_content","刹那快跳船，你的悠久已经在我的空岛上等你了，快到碗里来<(￣︶￣)>");
+        map.put("record_img",imgs[3]);
+        list2.add(map);
+
+        map = new HashMap<>();
+        map.put("record_date","17");
+        map.put("record_day","星期一");
+        map.put("record_content","沉迷冲田，无法自拔------");
+        map.put("record_img",imgs[4]);
+        list2.add(map);
+
+        map = new HashMap<>();
+        map.put("record_date","14");
+        map.put("record_day","星期四");
+        map.put("record_content","你是我唯一百八十三想要的卡牌（word 天，都唯到一百八十三了……");
+        map.put("record_img",imgs[5]);
+        list2.add(map);
+
+        map = new HashMap<>();
+        map.put("record_date","13");
+        map.put("record_day","星期三");
+        map.put("record_content","回想起被韩文歌支配的恐怖（瑟瑟发抖）");
+        map.put("record_img",imgs[6]);
+        list2.add(map);
+
+        map = new HashMap<>();
+        map.put("record_date","11");
+        map.put("record_day","星期一");
+        map.put("record_content","只要胆子大，一周七天假(o゜▽゜)o☆");
+        map.put("record_img",imgs[7]);
+        list2.add(map);
+
+        map = new HashMap<>();
+        map.put("record_date","10");
+        map.put("record_day","星期日");
+        map.put("record_content","没有菲特狗玩，我要死了。---辣鸡游戏，毁我青春，我要弃坑！---又出新5星？先氪两单再说。");
+        map.put("record_img",imgs[8]);
+        list2.add(map);
+        /*Map<String, Object> map = new HashMap<>();
         map.put("record_weather","晴");
         map.put("record_time","11月11日");
         list2.add(map);
@@ -201,7 +331,7 @@ public class DiaryListActivity extends AppCompatActivity
         map = new HashMap<>();
         map.put("record_weather","晴");
         map.put("record_time","11月22日");
-        list2.add(map);
+        list2.add(map);*/
 
         return list2;
     }
