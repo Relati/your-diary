@@ -1,32 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_width="250dp"
+    android:layout_height="160dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="8dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:paddingRight="6dp"
+    android:paddingTop="8dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:weightSum="7">
+    <LinearLayout
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2.3">
+        <LinearLayout
+            android:layout_weight="1.4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            >
+            <experiment.diary.CircleImageView
+                android:id="@+id/User_Icon"
+                app:civ_border_color="@color/colorWhite"
+                app:civ_border_width="2dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/test10"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="0.9"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/User_NickName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:text="奥斯汀">
+            </TextView>
+            <TextView
+                android:paddingTop="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:text="有一句***不知道该说不该说">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@android:drawable/ic_menu_edit" />
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:weightSum="7"
+        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:gravity="end"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+            <experiment.diary.CircleButton
+                android:id="@+id/settingsBtn"
+                android:layout_marginRight="7dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cb_color="@color/colorOfSettingBtn"
+                android:src="@drawable/test16"
+                />
+            <experiment.diary.CircleButton
+                android:id="@+id/foldNavBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cb_color="@color/colorThinBlue"
+                android:src="@drawable/test18_v1"
+                />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_marginLeft="0dp"
+            android:layout_weight="5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:text="Dear Diary：
+    ·························
+····························
+····························
+····························
+····························
+"/>
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="43dp"
+                android:id="@+id/nav_image"
+                android:layout_width="120dp"
+                android:layout_height="90dp"
+                android:src="@drawable/test17"
+                />
+        </RelativeLayout>
+    </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:paddingStart="16dp"
-        android:text="diary month"
-        android:textSize="20sp"
-        android:layout_gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>
