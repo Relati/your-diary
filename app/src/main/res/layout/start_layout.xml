@@ -58,7 +58,6 @@
         android:textColor="@color/colorBlack"
         android:id="@+id/accessBtn"
         android:textSize="17sp"
-
         android:background="@drawable/access_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
