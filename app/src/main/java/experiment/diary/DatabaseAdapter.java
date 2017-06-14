@@ -171,7 +171,7 @@ class DatabaseAdapter {
 
 
     // TODO: insert picture with suitable type
-    boolean insertDiary(int month, int day, String title, String content) {
+    boolean insertDiary(int month, int day, String title, String content, byte[] picture) {
         SQLiteDatabase db = dh.getWritableDatabase();
         if (db.isOpen()) {
             ContentValues cv = new ContentValues();
@@ -179,6 +179,9 @@ class DatabaseAdapter {
             cv.put("day", day);
             cv.put("title", title);
             cv.put("content", content);
+
+            cv.put("picture", picture);
+
             // -1 means insert failed
             if (db.insert(APP_DIARY_DB_DIARIES_TABLE, null, cv) != -1) {
                 db.close();
@@ -191,7 +194,7 @@ class DatabaseAdapter {
         return false;
     }
     // TODO: update picture with suitable type
-    boolean updateDiary(int month, int day, String title, String content) {
+    boolean updateDiary(int month, int day, String title, String content, byte[] picture) {
         SQLiteDatabase db = dh.getWritableDatabase();
         if (db.isOpen()) {
             ContentValues cv = new ContentValues();
@@ -200,11 +203,13 @@ class DatabaseAdapter {
             cv.put("title", title);
             cv.put("content", content);
 
+            cv.put("picture", picture);
+
             String where = "month = ? AND day = ?";
             String whereArgs[] = {String.valueOf(month), String.valueOf(day)};
 
             // db.update return the rows affected, so if succeeded return value greater then 0
-            if (db.update(APP_DIARY_DB_USER_TABLE, cv, where, whereArgs) > 0) {
+            if (db.update(APP_DIARY_DB_DIARIES_TABLE, cv, where, whereArgs) > 0) {
                 db.close();
                 return true;
             }
@@ -241,7 +246,7 @@ class DatabaseAdapter {
 
         if (db.isOpen()) {
             // TODO: picture
-            String columns[] = {"month", "day", "title", "content"};
+            String columns[] = {"month", "day", "title", "content", "picture"};
             Cursor cursor = db.query(APP_DIARY_DB_DIARIES_TABLE, columns, null, null, null, null, null);
 
             // convert the cursor into Diary and add it into result
@@ -252,8 +257,9 @@ class DatabaseAdapter {
                     String title = cursor.getString(cursor.getColumnIndex("title"));
                     String content = cursor.getString(cursor.getColumnIndex("content"));
 
+                    byte[] picture = cursor.getBlob(cursor.getColumnIndex("picture"));
                     // TODO: picture
-                    result.get(month).add(new Diary(month, day, title, content, null));
+                    result.get(month).add(new Diary(month, day, title, content, picture));
 
                 } while (cursor.moveToNext());
                 cursor.close();
@@ -271,7 +277,7 @@ class DatabaseAdapter {
 
         if (db.isOpen()) {
             // TODO: picture
-            String columns[] = {"month", "day", "title", "content"};
+            String columns[] = {"month", "day", "title", "content", "picture"};
             String where = "month = ?";
             String whereArgs[] = {String.valueOf(queryMonth)};
 
@@ -285,8 +291,10 @@ class DatabaseAdapter {
                     String title = cursor.getString(cursor.getColumnIndex("title"));
                     String content = cursor.getString(cursor.getColumnIndex("content"));
 
+
+                    byte[] picture = cursor.getBlob(cursor.getColumnIndex("picture"));
                     // TODO: picture
-                    result.add(new Diary(month, day, title, content, null));
+                    result.add(new Diary(month, day, title, content, picture));
 
                 } while (cursor.moveToNext());
                 cursor.close();
@@ -303,7 +311,7 @@ class DatabaseAdapter {
         SQLiteDatabase db = dh.getReadableDatabase();
         if (db.isOpen()) {
             // TODO: picture
-            String columns[] = {"month", "day", "title", "content"};
+            String columns[] = {"month", "day", "title", "content", "picture"};
             String where = "month = ? AND day = ?";
             String whereArgs[] = {String.valueOf(queryMonth), String.valueOf(queryDay)};
 
@@ -317,9 +325,10 @@ class DatabaseAdapter {
                     String title = cursor.getString(cursor.getColumnIndex("title"));
                     String content = cursor.getString(cursor.getColumnIndex("content"));
 
-                    // TODO: picture
 
-                    result = new Diary(month, day, title, content, null);
+                    byte[] picture = cursor.getBlob(cursor.getColumnIndex("picture"));
+                    // TODO: picture
+                    result = new Diary(month, day, title, content, picture);
 
                 } while (cursor.moveToNext());
                 cursor.close();
