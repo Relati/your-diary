@@ -6,8 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.RequiresApi;
 import android.widget.Toast;
 
 /**
@@ -15,6 +17,7 @@ import android.widget.Toast;
  */
 public class AlarmReceiver extends BroadcastReceiver {
     Vibrator vibrator;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, "闹铃响了", Toast.LENGTH_LONG).show();
