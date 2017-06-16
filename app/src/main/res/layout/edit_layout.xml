@@ -2,18 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+    android:background="@color/colorWhite">
 
+    <!---->
     <Button
         android:id="@+id/edit_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="5dp"
-        android:layout_marginStart="10dp"
-        android:drawableStart="@android:drawable/ic_menu_edit"
-        android:paddingStart="170dp" />
+        android:layout_marginStart="5dp"
+        android:text="@string/set"
+        android:textAlignment="center"
+        android:textColor="@color/colorLightBlue"
+        android:paddingStart="12dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,41 +25,65 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:layout_marginEnd="5dp"
-        android:layout_marginStart="10dp">
-        <Button
-            android:id="@+id/saveBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@android:drawable/ic_menu_save"
-            android:paddingStart="75dp"/>
-
+        android:layout_marginStart="5dp">
         <Button
             android:id="@+id/cancelBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/saveBtn"
             android:layout_weight="1"
-            android:drawableLeft="@android:drawable/ic_delete"
-            android:paddingStart="75dp"/>
+            android:text="@string/cancel"
+            android:textColor="@color/WarningRed"
+            android:paddingStart="5dp"/>
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/cancelBtn"
+            android:layout_weight="1"
+            android:text="@string/save"
+            android:textColor="@color/colorLightBlue"
+            android:paddingStart="5dp"/>
+        <!--android:drawableLeft="@android:drawable/ic_delete"-->
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_btn"
-        android:layout_alignEnd="@+id/edit_btn"
         android:orientation="vertical"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentStart="true">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar2"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorLightBlue"/>
+            <ImageButton
+                android:id="@+id/back_to_lists"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/back_to_lists"/>
+        </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/relative01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="25dp"
-            android:paddingTop="5dp">
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/text_border">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingTop="15dp">
@@ -66,12 +94,13 @@
                     android:orientation="horizontal">
                     <Spinner
                         android:id="@+id/spinner_month"
-                        android:layout_width="wrap_content"
+                        android:layout_width="75dp"
                         android:layout_height="wrap_content"
+                        android:textSize="15sp"
                         android:layout_marginEnd="5dp"/>
                     <Spinner
                         android:id="@+id/spinner_day"
-                        android:layout_width="wrap_content"
+                        android:layout_width="75dp"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:layout_marginStart="5dp"/>
@@ -79,7 +108,7 @@
 
                 <EditText
                     android:id="@+id/diary_title"
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:hint="title"
@@ -96,7 +125,9 @@
                 android:layout_height="120dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
-                android:background="@android:drawable/ic_menu_gallery" />
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/edit_image"
+                android:background="@drawable/edit_image_border"/>
 
         </RelativeLayout>
 
@@ -104,11 +135,9 @@
         <View
             android:id="@+id/view_between"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
+            android:layout_height="3dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:background="#74000000"/>
 
         <LinearLayout
