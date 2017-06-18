@@ -7,14 +7,12 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:weightSum="7">
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:weightSum="2">
-
         <TextView
             android:gravity="center"
             android:id="@+id/record_date"
