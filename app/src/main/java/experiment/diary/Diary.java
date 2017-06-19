@@ -40,6 +40,14 @@ public class Diary {
         return title;
     }
 
+    public void setPicture(byte[] pic) {picture = pic;}
+    public void setDay(int d) {day = d;}
+    public void setMonth(int m) {month = m;}
+    public void setTitle(String s) {title = s;}
+    public void setContent(String s) {
+        content = s;
+    }
+
     // TODO: the method of picture changing
     public static byte[] bitmapToBytes(Bitmap bm) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -76,5 +84,4 @@ public class Diary {
     public static Drawable bitmapToDrawable(Bitmap bm) {
         return new BitmapDrawable(bm);
     }
-
 }
