@@ -17,10 +17,10 @@ import java.util.TimeZone;
  * Created by 志锋 on 2016/12/23.
  */
 public class LongRunningService extends Service {
-
     int mHour;
     int mMinute;
     private SharedPreferences sp;
+    private String beginAlarmReceiver = "beginAlarmReceiver";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -35,10 +35,8 @@ public class LongRunningService extends Service {
         mHour = sp.getInt("setHour",0);
         mMinute = sp.getInt("setMinute",0);
 
-        System.out.println(mHour);
-        System.out.println(mMinute);
-
         Intent mIntent = new Intent(this, AlarmReceiver.class);
+        mIntent.setAction(beginAlarmReceiver);
         PendingIntent sender = PendingIntent.getBroadcast(this, 0, mIntent, 0);
 
         long firstTime = SystemClock.elapsedRealtime();	// 开机之后到现在的运行时间(包括睡眠时间)
