@@ -1,7 +1,8 @@
 package experiment.diary;
-
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,11 +37,14 @@ public class DiaryListActivity extends AppCompatActivity
 
     private ListView listview;
     List<Map<String, Object>> list2 = new ArrayList<>();
-    Animation mAnimation = null;
     TimeAlertDialog timeAlertDialog =null;
     TimePicker timePicker = null;
-    int hourOfPicker;
-    int minuteOfPicker;
+
+    //ADD
+    private SharedPreferences sp;
+    boolean isStartService = false;
+    //ADD
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +52,17 @@ public class DiaryListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //ADD
+        sp = getSharedPreferences("UserNote", MODE_PRIVATE);
+        //ADD
+
         listview = (ListView) findViewById(R.id.list_diary);
         final SimpleAdapter simpleAdapter = new SimpleAdapter(this,getData(),R.layout.diary_item,
                 new String[]{"record_date","record_day","record_content","record_img"},
                 new int[]{R.id.record_date,R.id.record_day,R.id.record_content,R.id.record_img});
         listview.setAdapter(simpleAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         LayoutInflater inflater = getLayoutInflater();
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         final View layout = inflater.inflate(R.layout.time_dialog,drawerLayout,false);
@@ -80,24 +88,40 @@ public class DiaryListActivity extends AppCompatActivity
                 if (timeAlertDialog == null) {
                     timeAlertDialog = new TimeAlertDialog(DiaryListActivity.this);
                     timePicker = (TimePicker) layout.findViewById(R.id.timePicker);
+                    timeAlertDialog.setAlpha(0.4f);
+                    timeAlertDialog.setPickerEnabled(false);
                     /*这里本来是想在timeAlertDialog初始化时设置默认时间的，但因为不支持api22,只支持api23所以暂时没处理*/
                 }
                 final Switch aswitch = (Switch)layout.findViewById(R.id.aswitch);
                 timePicker =(TimePicker) layout.findViewById(R.id.timePicker);
-                timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-                    @Override
-                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                        hourOfPicker = view.getCurrentHour();
-                        minuteOfPicker = view.getCurrentMinute();
-                        Toast.makeText(DiaryListActivity.this,"提醒时间设置为："+hourOfDay+" 时 "+
-                                minute+" 分 ",Toast.LENGTH_LONG).show();
-                    }
-                });
+
                 timeAlertDialog.setPositiveButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(DiaryListActivity.this,"提醒时间设置为："+hourOfPicker+" 时 "+
-                                minuteOfPicker +" 分 ",Toast.LENGTH_LONG).show();
+                        if (aswitch.isChecked()) {
+                            Toast.makeText(DiaryListActivity.this,"提醒时间设置为："+timeAlertDialog.getHour()+" 时 "+
+                                    timeAlertDialog.getMinute() +" 分 ",Toast.LENGTH_LONG).show();
+                            //ADD
+                            Intent ServiceIntent = new Intent(DiaryListActivity.this,LongRunningService.class);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putInt("setHour",timeAlertDialog.getHour());
+                            editor.putInt("setMinute",timeAlertDialog.getMinute());
+                            editor.putBoolean("isStartService",aswitch.isChecked());
+                            editor.commit();
+                            startService(ServiceIntent);
+                            //ADD
+                            //ADD else
+                        } else {
+                            if (sp.getBoolean("isStartService",false)) {
+                                Intent ServiceIntent = new Intent(DiaryListActivity.this,LongRunningService.class);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putBoolean("isStartService",aswitch.isChecked());
+                                editor.commit();
+                                Toast.makeText(DiaryListActivity.this,"Stop Service",Toast.LENGTH_LONG).show();
+                                stopService(ServiceIntent);
+                            }
+                        }
+                        //ADD else
                         timeAlertDialog.dismiss();
                     }
                 });
@@ -112,13 +136,15 @@ public class DiaryListActivity extends AppCompatActivity
                     public void onClick(View v) {
                         if (aswitch.isChecked()) {
                             aswitch.setChecked(false);
-                            timePicker.setEnabled(false);
+                            timeAlertDialog.setPickerEnabled(false);
+                            timeAlertDialog.setAlpha(0.4f);
 /*                            mAnimation = AnimationUtils.loadAnimation(DiaryListActivity.this,R.anim.turninvisiable);
                             timePicker.startAnimation(mAnimation);*/
                         }
                         else {
                             aswitch.setChecked(true);
-                            timePicker.setEnabled(true);
+                            timeAlertDialog.setPickerEnabled(true);
+                            timeAlertDialog.setAlpha(1.0f);
 /*                            mAnimation = AnimationUtils.loadAnimation(DiaryListActivity.this,R.anim.turnvisiable);
                             timePicker.startAnimation(mAnimation);*/
                         }
