@@ -6,17 +6,38 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
+import android.os.Build;
+import android.os.Handler;
 import android.os.Vibrator;
+import android.support.annotation.RequiresApi;
 import android.widget.Toast;
 
 /**
  * Created by 志锋 on 2016/12/23.
  */
 public class AlarmReceiver extends BroadcastReceiver {
-    Vibrator vibrator;
-    private String beginAlarmReceiver = "beginAlarmReceiver";
+    private Vibrator vibrator;
+    private static String beginAlarmReceiver = "beginAlarmReceiver";
+
+    private int times = 0;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (times >= 10) {
+                handler.removeCallbacks(runnable);
+                times = 0;
+            } else  {
+                // 想设置震动大小可以通过改变pattern来设定，如果开启时间太短，震动效果可能感觉不到
+                long [] pattern = {100,400,100,400};   // 停止 开启 停止 开启
+                vibrator.vibrate(pattern,-1);           //重复两次上面的pattern 如果只想震动一次，index设为-1
+                handler.postDelayed(runnable, 1000);
+                times++;
+            }
+        }
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(beginAlarmReceiver)) {
@@ -36,12 +57,13 @@ public class AlarmReceiver extends BroadcastReceiver {
             Notification notification = builder.build();
             manager.notify(0, notification);
 
-         /*
-         * 想设置震动大小可以通过改变pattern来设定，如果开启时间太短，震动效果可能感觉不到
-         * */
             vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-            long [] pattern = {100,400,100,400};   // 停止 开启 停止 开启
-            vibrator.vibrate(pattern,-1);           //重复两次上面的pattern 如果只想震动一次，index设为-1
+
+            handler.post(runnable);
+
         }
     }
+
+
+
 }
