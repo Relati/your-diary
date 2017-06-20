@@ -6,13 +6,14 @@
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="horizontal"
-    android:paddingBottom="8dp"
+    android:paddingBottom="0dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="6dp"
     android:paddingTop="8dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:weightSum="7">
     <LinearLayout
+        android:paddingBottom="8dp"
         android:layout_weight="3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -22,14 +23,15 @@
             android:layout_weight="1.4"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
             >
             <experiment.diary.CircleImageView
-                android:id="@+id/User_Icon"
-                app:civ_border_color="@color/colorWhite"
-                app:civ_border_width="2dp"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/test10"/>
+                app:civ_border_color="@color/colorWhite"
+                app:civ_border_width="2dp"
+                android:src="@drawable/test10_compress"/>
         </LinearLayout>
         <LinearLayout
             android:layout_weight="0.9"
@@ -63,30 +65,24 @@
         android:orientation="vertical">
         <LinearLayout
             android:gravity="end"
-            android:layout_weight="2"
+            android:layout_weight="2.1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal">
-            <experiment.diary.CircleButton
-                android:id="@+id/settingsBtn"
-                android:layout_marginRight="7dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:cb_color="@color/colorOfSettingBtn"
-                android:src="@drawable/test16"
-                />
-            <experiment.diary.CircleButton
+
+            <ImageButton
                 android:id="@+id/foldNavBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:cb_color="@color/colorThinBlue"
-                android:src="@drawable/test18_v1"
-                />
+                android:scaleType="fitXY"
+                android:clickable="true"
+                android:background="@drawable/circle"
+                android:src="@drawable/test18_v1"/>
         </LinearLayout>
         <RelativeLayout
             android:layout_marginLeft="0dp"
-            android:layout_weight="5"
+            android:layout_weight="4.9"
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <TextView
@@ -97,19 +93,19 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"
                 android:text="Dear Diary：
-    ·························
-····························
-····························
-····························
-····························
 "/>
             <ImageView
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="13dp"
                 android:scaleType="fitXY"
-                android:layout_marginLeft="43dp"
+                android:layout_width="320dp"
+                android:layout_height="90dp"
+                android:src="@drawable/dash"/>
+            <ImageView
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="17dp"
                 android:id="@+id/nav_image"
                 android:layout_width="120dp"
-                android:layout_height="90dp"
+                android:layout_height="65dp"
                 android:src="@drawable/test17"
                 />
         </RelativeLayout>
