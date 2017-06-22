@@ -78,7 +78,10 @@ class DatabaseAdapter {
      *
      * */
 
-    // TODO: insert head with suitable type
+    /** @param {String} username
+    *   @param {String} password
+    *   @return {boolean}
+    */
     boolean insertUser(String username, String password) {
         SQLiteDatabase db = dh.getWritableDatabase();
         if (db.isOpen()) {
@@ -96,6 +99,11 @@ class DatabaseAdapter {
         Log.e(TAG, "insertUser: cannot open db", new Throwable("cannot open db"));
         return false;
     }
+
+    /** @param {String} username
+    *   @param {String} password
+    *   @return {boolean}
+    */
     boolean updateUser(String username, String password) {
         SQLiteDatabase db = dh.getWritableDatabase();
         if (db.isOpen()) {
@@ -117,6 +125,11 @@ class DatabaseAdapter {
         Log.e(TAG, "updateUser: cannot open db", new Throwable("cannot open db"));
         return false;
     }
+
+    /** @param {String} username
+    *   @param {String} password
+    *   @return {boolean}
+    */
     boolean deleteUser(String username, String password) {
         SQLiteDatabase db = dh.getWritableDatabase();
         if (db.isOpen()) {
@@ -135,6 +148,7 @@ class DatabaseAdapter {
         return false;
     }
 
+    // @return {boolean}
     boolean isUserExist() {
         SQLiteDatabase db = dh.getReadableDatabase();
         boolean result;
@@ -151,6 +165,10 @@ class DatabaseAdapter {
         return false;
     }
 
+    /** @param {String} username
+    *   @param {String} password
+    *   @return {boolean}
+    */
     boolean isRightUserAndPassword(String username, String password) {
         SQLiteDatabase db = dh.getReadableDatabase();
         boolean result;
@@ -170,7 +188,13 @@ class DatabaseAdapter {
     }
 
 
-    // TODO: insert picture with suitable type
+    /** @param {int} month
+    *   @param {int} day
+    *   @param {String} title
+    *   @param {String} content
+    *   @param {byte[]} picture
+    *   @return {boolean}
+    */
     boolean insertDiary(int month, int day, String title, String content, byte[] picture) {
         SQLiteDatabase db = dh.getWritableDatabase();
         if (db.isOpen()) {
@@ -193,7 +217,14 @@ class DatabaseAdapter {
         Log.e(TAG, "insertDiary: cannot open db", new Throwable("cannot open db"));
         return false;
     }
-    // TODO: update picture with suitable type
+
+    /** @param {int} month
+    *   @param {int} day
+    *   @param {String} title
+    *   @param {String} content
+    *   @param {byte[]} picture
+    *   @return {boolean}
+    */
     boolean updateDiary(int month, int day, String title, String content, byte[] picture) {
         SQLiteDatabase db = dh.getWritableDatabase();
         if (db.isOpen()) {
@@ -219,6 +250,11 @@ class DatabaseAdapter {
         Log.e(TAG, "updateDiary: cannot open db", new Throwable("cannot open db"));
         return false;
     }
+
+    /** @param {int} month
+    *   @param {int} day
+    *   @return {boolean}
+    */
     boolean deleteDiary(int month, int day) {
         SQLiteDatabase db = dh.getWritableDatabase();
         if (db.isOpen()) {
@@ -237,6 +273,7 @@ class DatabaseAdapter {
         return false;
     }
 
+    //  @return {ArrayList<ArrayList<Diary>>}
     ArrayList<ArrayList<Diary>> queryDiaryAll() {
         ArrayList<ArrayList<Diary>> result = new ArrayList<>();
         for (int i = 0; i <= 12; ++i) {
@@ -271,12 +308,15 @@ class DatabaseAdapter {
         }
         return null;
     }
+
+    /** @param {int} queryMonth
+    *   @return {ArrayList<ArrayList<Diary>>}
+    */
     ArrayList<Diary> queryDiaryByMonth(int queryMonth) {
         ArrayList<Diary> result = new ArrayList<>();
         SQLiteDatabase db = dh.getReadableDatabase();
 
         if (db.isOpen()) {
-            // TODO: picture
             String columns[] = {"month", "day", "title", "content", "picture"};
             String where = "month = ?";
             String whereArgs[] = {String.valueOf(queryMonth)};
@@ -306,11 +346,15 @@ class DatabaseAdapter {
         }
         return null;
     }
+
+    /** @param {int} queryMonth
+    *   @param {int} queryDay
+    *   @return {Diary}
+    */    
     Diary queryDiaryByMonthAndByDay(int queryMonth, int queryDay) {
         Diary result = null;
         SQLiteDatabase db = dh.getReadableDatabase();
         if (db.isOpen()) {
-            // TODO: picture
             String columns[] = {"month", "day", "title", "content", "picture"};
             String where = "month = ? AND day = ?";
             String whereArgs[] = {String.valueOf(queryMonth), String.valueOf(queryDay)};
@@ -327,7 +371,6 @@ class DatabaseAdapter {
 
 
                     byte[] picture = cursor.getBlob(cursor.getColumnIndex("picture"));
-                    // TODO: picture
                     result = new Diary(month, day, title, content, picture);
 
                 } while (cursor.moveToNext());
