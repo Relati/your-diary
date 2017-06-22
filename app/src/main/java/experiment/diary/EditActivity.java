@@ -1,16 +1,10 @@
 package experiment.diary;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,11 +15,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,6 +27,7 @@ import java.util.List;
 
 
 public class EditActivity extends AppCompatActivity {
+    private boolean isEdited = false;
     private EditText title;
     private EditText inputText;
     private List<String> listMonth = new ArrayList<>();
@@ -54,8 +48,6 @@ public class EditActivity extends AppCompatActivity {
     private byte[] temPic;
 
     private final int REQUEST_CODE_PICK_IMAGE = 1;
-
-    private final String IMG_FILE_NAME = "tem";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +198,6 @@ public class EditActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //切换为可编辑状态
                 groupBtn.setVisibility(View.VISIBLE);
-//                Log.e("key","click editBtn");
                 setButtonsEditable(true);
 
                 editBtn.setVisibility(View.GONE);
@@ -218,16 +209,20 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 backUp();
-                if (dbAdapter.queryDiaryByMonthAndByDay(diary.getMonth(), diary.getDay()) == null) {
-                    dbAdapter.insertDiary(diary.getMonth(), diary.getDay(), diary.getTitle(), diary.getContent(), diary.getPicture());
+                if (diary.getTitle().toString().isEmpty() || diary.getContent().toString().isEmpty()) {
+                    Toast.makeText(EditActivity.this, "标题和内容不能为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    dbAdapter.updateDiary(diary.getMonth(), diary.getDay(), diary.getTitle(), diary.getContent(), diary.getPicture());
+                    if (dbAdapter.queryDiaryByMonthAndByDay(diary.getMonth(), diary.getDay()) == null) {
+                        dbAdapter.insertDiary(diary.getMonth(), diary.getDay(), diary.getTitle(), diary.getContent(), diary.getPicture());
+                    } else {
+                        dbAdapter.updateDiary(diary.getMonth(), diary.getDay(), diary.getTitle(), diary.getContent(), diary.getPicture());
+                    }
+                    setButtonsEditable(false);
+                    editBtn.setVisibility(View.VISIBLE);
+                    groupBtn.setVisibility(View.GONE);
+                    isEdited = true;
                 }
 
-                setButtonsEditable(false);
-                editBtn.setVisibility(View.VISIBLE);
-                groupBtn.setVisibility(View.GONE);
-                //finish();
             }
         });
 
@@ -246,6 +241,9 @@ public class EditActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isEdited) {
+                    EditActivity.this.setResult(RESULT_OK);
+                }
                 finish();
             }
         });
@@ -306,17 +304,6 @@ public class EditActivity extends AppCompatActivity {
         image.setEnabled(bool);
     }
 
-    //检测传入的Bitmap图像是否小于某个定值，否则将其压缩
-    private Bitmap compress(Bitmap squareBM) {
-        if (squareBM == null) return null;
-        final int outputHeight = 1024;
-        if (squareBM.getHeight() < 1024) return squareBM;
-        float compressSize = squareBM.getHeight()/outputHeight;
-        Matrix matrix = new Matrix();
-        matrix.setScale(compressSize, compressSize);
-        return Bitmap.createBitmap(squareBM, 0, 0, outputHeight, outputHeight, matrix, true);
-    }
-
     //通过uri索引到指定图像，截取图像，压缩后以Bitmap形式传出
     private Bitmap decodeUriAsBitmap(Uri uri) throws IOException {
         InputStream input = this.getContentResolver().openInputStream(uri);
@@ -366,51 +353,4 @@ public class EditActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
         return bitmap;
     }
-
-    /*
-    private Uri getTempUri() {
-        return Uri.fromFile(getTempFile());
-    }
-
-    private File getTempFile() {
-        File file = new File(Environment.getExternalStorageDirectory(), IMG_FILE_NAME);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
-    }
-
-    @SuppressLint("NewApi")
-    private void requestReadExternalPermission() {
-        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            } else {
-                requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permission[], int[] grantResults) {
-        switch (requestCode) {
-            case 0: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                } else {
-                }
-                return;
-            }
-            default:
-                break;
-        }
-    }
-
-    private void cropImage(Uri uri) {
-        if (uri == null) return;
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
-    }
-    */
 }
