@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class StartActivity extends AppCompatActivity {
-    Button resetBtn;
     private Button accessBtn;
     private EditText User;
     private EditText newPasswordText;
@@ -18,9 +17,6 @@ public class StartActivity extends AppCompatActivity {
     private EditText passwordText;
     RelativeLayout relativeLayout;
     private DatabaseAdapter databaseAdapter;
-
-    private String USERNAME = "USER";
-    private String PASSWORD = "12";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +31,14 @@ public class StartActivity extends AppCompatActivity {
         findViews();
         instantiate();
 
-        //开发的时候定死用户名和密码
-        User.setText(USERNAME);
-        passwordText.setText(PASSWORD);
-
         //设置背景透明度
         relativeLayout.getBackground().setAlpha(200);
         accessBtn.getBackground().setAlpha(150);
 
         //判断是否存在已创建的用户
-        if(databaseAdapter.isUserExist()) {
+        if(databaseAdapter.isUserExist() != null) {
             accessBtn.setText("进入日记");
+            User.setText(databaseAdapter.isUserExist());
             newPasswordText.setVisibility(View.GONE);
             //改变控件位置
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) accessBtn.getLayoutParams();
@@ -53,25 +46,7 @@ public class StartActivity extends AppCompatActivity {
         } else {
             accessBtn.setText("创建用户");
             newPasswordText.setVisibility(View.VISIBLE);
-            newPasswordText.setText(PASSWORD);
         }
-
-        //重置密码，仅开发时使用
-        resetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (databaseAdapter.isUserExist()) {
-                    databaseAdapter.deleteUser(USERNAME,PASSWORD);
-                    accessBtn.setText("创建用户");
-                    newPasswordText.setVisibility(View.VISIBLE);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) accessBtn.getLayoutParams();
-                    params.setMargins(0,140,0,0);
-                    newPasswordText.setText(PASSWORD);
-                } else {
-                    makeToast("数据库中不存在用户，无需重置密码");
-                }
-            }
-        });
 
         accessBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +81,6 @@ public class StartActivity extends AppCompatActivity {
 
     //建立映射
     private void findViews() {
-        resetBtn = (Button) findViewById(R.id.resetBtn);
         accessBtn = (Button) findViewById(R.id.accessBtn);
         User = (EditText) findViewById(R.id.username);
         passwordText = (EditText) findViewById(R.id.password);
