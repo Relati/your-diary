@@ -12,6 +12,7 @@
     android:paddingTop="8dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:weightSum="7">
+
     <LinearLayout
         android:paddingBottom="8dp"
         android:layout_weight="3"
@@ -46,6 +47,7 @@
                 android:textColor="@color/colorWhite"
                 android:text="奥斯汀">
             </TextView>
+
             <TextView
                 android:paddingTop="3dp"
                 android:layout_width="match_parent"
@@ -53,10 +55,10 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"
                 android:text="有一句***不知道该说不该说">
-
             </TextView>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:weightSum="7"
         android:layout_weight="4"
@@ -78,8 +80,10 @@
                 android:scaleType="fitXY"
                 android:clickable="true"
                 android:background="@drawable/circle"
-                android:src="@drawable/test18_v1"/>
+                android:src="@drawable/test18_v1"
+                />
         </LinearLayout>
+
         <RelativeLayout
             android:layout_marginLeft="0dp"
             android:layout_weight="4.9"
@@ -92,24 +96,22 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"
-                android:text="Dear Diary：
-"/>
+                android:text="Dear Diary：" />
+
             <ImageView
                 android:layout_marginTop="13dp"
                 android:scaleType="fitXY"
                 android:layout_width="320dp"
                 android:layout_height="90dp"
-                android:src="@drawable/dash"/>
+                android:src="@drawable/dash" />
+
             <ImageView
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="17dp"
                 android:id="@+id/nav_image"
                 android:layout_width="120dp"
                 android:layout_height="65dp"
-                android:src="@drawable/test17"
-                />
+                android:src="@drawable/test17" />
         </RelativeLayout>
     </LinearLayout>
-
-
 </LinearLayout>
