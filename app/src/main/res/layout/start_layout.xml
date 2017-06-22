@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/start_bg">
 
+    <!--在登录界面上显示APP的名称为My Diary-->
     <TextView
         android:id="@+id/my_diary_text"
         android:layout_width="wrap_content"
@@ -18,6 +19,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp" />
 
+    <!--在这个数据框内输入用户名-->
     <EditText
         android:textColorHint="@color/colorBlack"
         android:id="@+id/username"
@@ -29,6 +31,7 @@
         android:gravity="center"
         android:hint="@string/pleaseInputUsername"/>
 
+    <!--密码输入框-->
     <EditText
         android:textColorHint="@color/colorBlack"
         android:id="@+id/password"
@@ -41,6 +44,7 @@
         android:gravity="center"
         android:hint="@string/pleaseInputPassword" />
 
+    <!--这个edittext只有在第一次打开这个APP的时候才会显示，用来注册用户的时候确认密码-->
     <EditText
         android:textColorHint="@color/colorBlack"
         android:id="@+id/newPassword"
@@ -53,7 +57,7 @@
         android:layout_width="180dp"
         android:layout_height="wrap_content" />
 
-    <!--进入日记是在设定好密码后才显示的，没设定之前显示的是提示输入密码的信息-->
+    <!--“进入日记”的显示是在设定好密码后才显示的，没设定密码之前显示的是提示输入密码的信息-->
     <Button
         android:textColor="@color/colorBlack"
         android:id="@+id/accessBtn"
