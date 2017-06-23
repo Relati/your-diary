@@ -14,9 +14,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 /**
- * Created by Administrator on 2016/12/22 0022.
+ * Created by Administrator on 2017/6/23 0022.
  */
 public class TimeAlertDialog  {
+
     Context context;
     android.app.AlertDialog ad;
     TextView titleView;
@@ -25,6 +26,13 @@ public class TimeAlertDialog  {
     Button positiveButton;
     Button negativeButton;
     Animation mAnimation = null;
+
+    /*
+     * Title: function TimeAlertDialog
+     * Description: realize the alert function in app.
+     * IMPORTANT
+     */
+
     public TimeAlertDialog(Context context) {
         this.context = context;
         ad = new android.app.AlertDialog.Builder(context).create();
@@ -38,6 +46,14 @@ public class TimeAlertDialog  {
         negativeButton =(Button) window.findViewById(R.id.cancelButton);
         timePicker.setIs24HourView(true);
     }
+
+    /*
+     * Title: Alert Set
+     * Description: set all the values that function "TimeAlert" need such as time and title.
+     *              and get the current time.
+     * IMPORTANT
+     */
+
     public void setTitle(int resId) {
         titleView.setText(resId);
     }

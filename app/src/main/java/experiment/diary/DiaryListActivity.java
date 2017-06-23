@@ -30,11 +30,34 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+// * Create by Administator on 2017/6/23 
+
+/*
+ * DiaryListActivity for app.
+ * diaries list on this activity and operating to diaries in this activity.
+ * IMPORTANT
+ *
+ *
+ */
+
 public class DiaryListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ListView listview;
+    /*
+     * @Fields monthTranslator: month translate from input to storage form.
+     * @Fields idTranslator: id translate from input to storage form.
+     * @Fields databaseAdapter: diary databaseAdapter initialzation for list in this activity.
+     * @Fields Calender: calender in this activity.
+     * @Fields selectedMonth: month that is selected.
+     * @Fields currentYear:current year.
+     * @Fields showMonth: textview that shows month.
+     * @Fields hourSetBefore: 
+     * @Fields minuteSetBefore: 
+     * @Fields 
+     * @Fields
+     */
 
+    private ListView listview;
     private Map<Integer, Integer> monthTranslator = new HashMap<>();
     private Map<Integer,Integer> idTranslator = new HashMap<>();
     private ArrayList<Diary> monthDiaryList= new ArrayList<>();
@@ -77,6 +100,15 @@ public class DiaryListActivity extends AppCompatActivity
         monthDiaryList.addAll(databaseAdapter.queryDiaryByMonth(selectedMonth));
         myAdapter = new MyAdapter(this, monthDiaryList);
         listview.setAdapter(myAdapter);
+
+    /*
+     * Description: click listener where user inputs, changes, stores and deletes the diary.
+     *              function part.    
+     *
+     * IMPORTANT
+     *
+     */
+
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -118,6 +150,14 @@ public class DiaryListActivity extends AppCompatActivity
             }
         });
 
+    /*
+     * Description: function that adds alert, change,store and delete alert. 
+     *
+     *
+     *
+     *
+     */
+
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         LayoutInflater inflater = getLayoutInflater();
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -146,7 +186,9 @@ public class DiaryListActivity extends AppCompatActivity
                             Toast.makeText(DiaryListActivity.this, "提醒时间设置为：" + timeAlertDialog.getHour() + " 时 " +
                                     timeAlertDialog.getMinute() + " 分 ", Toast.LENGTH_LONG).show();
                             showIsAlarmOn.setText(getResources().getString(R.string.AlarmOn));
+                            
                             //ADD
+                            
                             Intent ServiceIntent = new Intent(DiaryListActivity.this, LongRunningService.class);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putInt("setHour", timeAlertDialog.getHour());
@@ -154,8 +196,10 @@ public class DiaryListActivity extends AppCompatActivity
                             editor.putBoolean("isStartService", aswitch.isChecked());
                             editor.commit();
                             startService(ServiceIntent);
+
                             //ADD
                             //ADD else
+                        
                         } else {
                             if (sp.getBoolean("isStartService", false)) {
                                 showIsAlarmOn.setText(getResources().getString(R.string.AlarmOff));
@@ -167,7 +211,9 @@ public class DiaryListActivity extends AppCompatActivity
                                 stopService(ServiceIntent);
                             }
                         }
+
                         //ADD else
+
                         timeAlertDialog.dismiss();
                     }
                 });
@@ -177,6 +223,15 @@ public class DiaryListActivity extends AppCompatActivity
                         timeAlertDialog.dismiss();
                     }
                 });
+
+                /*
+                 * Description: turn the alert on/off
+                 *
+                 *
+                 *
+                 *
+                 */
+
                 timeAlertDialog.setSwitch(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -191,6 +246,15 @@ public class DiaryListActivity extends AppCompatActivity
                         }
                     }
                 });
+
+           /*
+            * Description: check if the alert time is up. 
+            *
+            *
+            *
+            *
+            */
+
                 timeAlertDialog.show();
                 isStartService = sp.getBoolean("isStartService",false);
                 if (isStartService) {
@@ -232,6 +296,15 @@ public class DiaryListActivity extends AppCompatActivity
             }
         });
     }
+
+    /*
+     * Description: press to back to the activity
+     *
+     *
+     *
+     *
+     */
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -243,17 +316,23 @@ public class DiaryListActivity extends AppCompatActivity
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
+        
         getMenuInflater().inflate(R.menu.add, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
+
         //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             Intent mIntent = new Intent(DiaryListActivity.this,EditActivity.class);
             startActivityForResult(mIntent,0);
@@ -265,7 +344,9 @@ public class DiaryListActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
+        
         int id = item.getItemId();
         selectedMonth = monthTranslator.get(id);
         monthDiaryList.clear();
@@ -287,6 +368,7 @@ public class DiaryListActivity extends AppCompatActivity
             myAdapter.notifyDataSetChanged();
         }
     }
+
     private void setTranslator() {
         monthTranslator.put(R.id.Jauary, 1);
         monthTranslator.put(R.id.February, 2);
