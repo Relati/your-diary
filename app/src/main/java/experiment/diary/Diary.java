@@ -10,12 +10,12 @@ import android.graphics.drawable.Drawable;
 import java.io.ByteArrayOutputStream;
 
 /*
-* @ClassName: Diary 
+* @ClassName: Diary
 * @Description: manage the data of a diary and provide a template structure
 *     Core data structure for databases and activities
 * @author Relati
 * @date 2017-06-23 17:52:21
-* 
+*
 * IMPORTANT
 */
 public class Diary {
