@@ -14,10 +14,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-// * Created by Administrator on 2016/12/28 0028.
+// * Created by Administrator on 2017/6/23 0028.
 
-
+/*
+ * adapter for listview.
+ * 
+ *
+ *
+ */
 public class MyAdapter extends BaseAdapter {
+
     private Context context;
     private ArrayList<Diary> list;
     Integer[] noImgs = new Integer[] {R.drawable.noimagever1,R.drawable.noimagever2,R.drawable.noimagever3};
@@ -25,7 +31,13 @@ public class MyAdapter extends BaseAdapter {
         this.context = context;
         this.list = list;
     }
-
+    /*
+     * 
+     * Title: get Values.
+     * Description: get the values adapter need to build the listview
+     * IMPORTANT
+     *
+     */
     @Override
     public int getCount() {
         if (list == null) {
@@ -47,6 +59,13 @@ public class MyAdapter extends BaseAdapter {
         return position;
     }
 
+    /*
+     * 
+     * Title: getView
+     * Description: get the listview that need to be built.
+     * IMPORTANT
+     *
+     */
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View convertView;
